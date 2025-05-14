@@ -1,25 +1,20 @@
 package CanditateonboardingSystem.CanditateonboardingSystem.dto;
 
-import CanditateonboardingSystem.CanditateonboardingSystem.entity.Candidates;
-import jakarta.persistence.*;
+
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 @Data
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 
-
 public class CandidateEducationDto {
-    @Id @GeneratedValue
-    private long id;
+    @NotEmpty
     private String institution;
+    @NotEmpty
     private String degree;
-    private int year_of_passing;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @jakarta.persistence.JoinColumn(name = "candidates_id", referencedColumnName = "id")
-    private Candidates candidates;
+    @NotEmpty
+    private String year_of_passing;
 
 }

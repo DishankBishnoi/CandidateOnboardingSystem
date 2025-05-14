@@ -2,24 +2,24 @@ package CanditateonboardingSystem.CanditateonboardingSystem.dto;
 
 import CanditateonboardingSystem.CanditateonboardingSystem.entity.Candidates;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@AllArgsConstructor
 public class CandidatePersonalInfoDto {
-    @Id @GeneratedValue
-    private long id;
+
     private Date dob;
+    @NotEmpty
     private String gender;
+    @NotEmpty
     private String nationality;
+    @NotEmpty
     private String address;
-    @OneToOne (cascade = CascadeType.ALL)
-    @JoinColumn(name = "candidates_id", referencedColumnName = "id")
-    private Candidates candidates;
+
 
 }

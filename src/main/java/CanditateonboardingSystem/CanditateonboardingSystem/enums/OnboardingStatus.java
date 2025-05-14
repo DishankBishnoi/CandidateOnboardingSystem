@@ -1,5 +1,5 @@
 package CanditateonboardingSystem.CanditateonboardingSystem.enums;
 
-public enum Onboarding_Status {
+public enum OnboardingStatus {
     NOT_STARTED,IN_PROGRESS,COMPLETED
 }

@@ -1,5 +1,6 @@
 package CanditateonboardingSystem.CanditateonboardingSystem.service;
 
+import CanditateonboardingSystem.CanditateonboardingSystem.Exceptions.CandidateNotFound;
 import CanditateonboardingSystem.CanditateonboardingSystem.Repository.CandidateBankInformationRepository;
 import CanditateonboardingSystem.CanditateonboardingSystem.Repository.CandidateEducationDetailRepository;
 import CanditateonboardingSystem.CanditateonboardingSystem.Repository.CandidatePersonalInfoRespository;
@@ -10,13 +11,11 @@ import CanditateonboardingSystem.CanditateonboardingSystem.dto.CandidatesDto;
 import CanditateonboardingSystem.CanditateonboardingSystem.entity.CandidateEducation;
 import CanditateonboardingSystem.CanditateonboardingSystem.entity.CandidatePersonalInfo;
 import CanditateonboardingSystem.CanditateonboardingSystem.entity.Candidates;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping
+
 @Service
 public class CandidateService {
 
@@ -28,7 +27,9 @@ public class CandidateService {
 
 
     @Autowired
-    public CandidateService(CandidateRecordsRepository candidateRecordsRepository, CandidateBankInformationRepository candidateBankInformationRepository, CandidateEducationDetailRepository candidateEducationDetailRepository, CandidatePersonalInfoRespository candidatePersonalInfoRespository) {
+    public CandidateService(CandidateRecordsRepository candidateRecordsRepository, CandidateBankInformationRepository candidateBankInformationRepository,
+                            CandidateEducationDetailRepository candidateEducationDetailRepository,
+                            CandidatePersonalInfoRespository candidatePersonalInfoRespository) {
         this.candidateRecordsRepository = candidateRecordsRepository;
         this.candidateBankInformationRepository = candidateBankInformationRepository;
         this.candidateEducationDetailRepository = candidateEducationDetailRepository;
@@ -45,7 +46,7 @@ public class CandidateService {
         candidateRecordsRepository.save(candidate);
     }
 
-    public void addPersonalInfo(CandidatePersonalInfoDto CandidatePersonalInfoDto){
+    public void addPersonalInfo(CandidatePersonalInfoDto CandidatePersonalInfoDto , Long candidateId){
         CandidatePersonalInfo candidatePersonalInfo= new CandidatePersonalInfo();
         candidatePersonalInfo.setDob(CandidatePersonalInfoDto.getDob());
         candidatePersonalInfo.setGender(CandidatePersonalInfoDto.getGender());
@@ -54,17 +55,27 @@ public class CandidateService {
         candidatePersonalInfoRespository.save(candidatePersonalInfo);
     }
 
-    public void saveEducation(CandidateEducationDto candidateEducationDto){
+    public void saveEducation(CandidateEducationDto candidateEducationDto,Long candidateId){
         CandidateEducation candidateEducation = new CandidateEducation();
         candidateEducation.setDegree(CandidateEducationDto.getDegree());
+        candidateEducation.setInstitution(CandidateEducationDto.getInstitution());
+        candidateEducation.setYear_of_passing(CandidateEducationDto.getYear_of_passing());
+        candidateEducation.setCandidates(candidateRecordsRepository.findById(candidateId).orElseThrow(()-> new CandidateNotFound(candidateId)));
+        candidateEducationDetailRepository.save(candidateEducation);
 
     }
-    public int getCandidateCount(){
+    public  int getCandidateCount(){
         int count =0;
         for(Candidates candidates : CandidateRecordsRepository.findAll()){
             count++;
         }
         return count;
     }
+
+    public void getCandidateById(Long candidateId){
+        Candidates candidate = candidateRecordsRepository.findById(candidateId).orElseThrow(()-> new CandidateNotFound(candidateId));
+        return candidate;
+    }
+
 
 }
