@@ -19,8 +19,8 @@ public class CandidateEducation {
     private String year_of_passing;
 
     @OneToOne(cascade = jakarta.persistence.CascadeType.ALL)
-    @jakarta.persistence.JoinColumn(name = "candidates_id", referencedColumnName = "id")
-    private Candidates candidates;
+    @JoinColumn(name = "candidate_id", referencedColumnName = "id")
+    private Candidates candidate;
 
 
 

@@ -1,18 +1,29 @@
 package CanditateonboardingSystem.CanditateonboardingSystem.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CandidateDocument {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private long id;
-    private String document_type;
-    private String file_url;
-    private Boolean is_verified;
-    @OneToOne (cascade = jakarta.persistence.CascadeType.ALL)
-    @jakarta.persistence.JoinColumn(name = "candidates_id", referencedColumnName = "id")
-    private Candidates candidates;
+
+    private String documentType;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] fileData;
+
+
+
+    private Boolean isVerified;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "candidate_id", referencedColumnName = "id")
+    private Candidates candidate;
 }

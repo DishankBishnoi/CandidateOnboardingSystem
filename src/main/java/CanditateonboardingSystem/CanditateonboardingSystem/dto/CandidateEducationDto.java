@@ -15,6 +15,6 @@ public class CandidateEducationDto {
     @NotEmpty
     private String degree;
     @NotEmpty
-    private String year_of_passing;
+    private String Yearofpassing;
 
 }

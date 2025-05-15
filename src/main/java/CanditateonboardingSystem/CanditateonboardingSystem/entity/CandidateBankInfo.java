@@ -1,7 +1,11 @@
 package CanditateonboardingSystem.CanditateonboardingSystem.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Entity
+@Data
+@Table(name = "candidate_bank_info")
 public class CandidateBankInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +16,6 @@ public class CandidateBankInfo {
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "candidates_id", referencedColumnName = "id")
-    private Candidates candidates;
+    @JoinColumn(name = "candidate_id", referencedColumnName = "id")
+    private Candidates candidate;
 }

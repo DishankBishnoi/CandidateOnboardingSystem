@@ -23,7 +23,7 @@ public class CandidatePersonalInfo {
     private String nationality;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "candidates_id", referencedColumnName = "id")
-    private Candidates candidates;
+    @JoinColumn(name = "candidate_id", referencedColumnName = "id")
+    private Candidates candidate;
 
 }
