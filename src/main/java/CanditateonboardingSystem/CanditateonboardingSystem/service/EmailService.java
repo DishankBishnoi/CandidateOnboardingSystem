@@ -29,4 +29,18 @@ public class EmailService {
 
         }
     }
+
+    public boolean SendOtpEmail(String email,String otp){
+        try{
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(email);
+            message.setSubject("OTP for Canditate Onboarding System");
+            message.setText("Your OTP is: "+otp);
+            mailSender.send(message);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+
+        }
+    }
 }

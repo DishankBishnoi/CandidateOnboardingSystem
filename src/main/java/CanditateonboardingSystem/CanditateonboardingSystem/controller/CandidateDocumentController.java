@@ -15,7 +15,7 @@ public class CandidateDocumentController {
     @Autowired
     private CandidateDocumentService candidateDocumentService;
 
-
+//  This function is used to upload the document.
     @PostMapping("/upload")
     public ResponseEntity<CandidateDocumentDto> uploadDocument(
             @PathVariable long candidateId,
@@ -30,7 +30,7 @@ public class CandidateDocumentController {
                 false
         ));
     }
-
+//    This function is used to verify the document.
     @PutMapping("/{documentId}/verify")
     public ResponseEntity<CandidateDocumentDto> verifyDocument(@PathVariable long documentId , @PathVariable Long candidateId   ) {
         candidateDocumentService.verifyDocument(documentId,candidateId);

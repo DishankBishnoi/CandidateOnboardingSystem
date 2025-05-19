@@ -14,8 +14,8 @@ public class JobOfferNotificationController {
     @Autowired
     JobOfferNotificationListener jobOfferNotificationListener;
 
-    @PostMapping("/send-email")
-    public boolean sendNotification(@PathVariable  Long candidateId){
+    @PostMapping("/{id}")
+    public ResponseEntity<?> sendNotification(@PathVariable  Long candidateId){
         boolean Status = jobOfferNotificationListener.processJobOfferMail(candidateId);
         if(Status){
             return ResponseEntity.ok("Notification Successfully sent");

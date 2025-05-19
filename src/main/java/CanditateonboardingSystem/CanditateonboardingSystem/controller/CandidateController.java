@@ -21,7 +21,7 @@ public class CandidateController {
 //   We are using @Autowired to inject the service into the service class
 //    Flow should be like this Controller>Service>Dto(Data transfer Object)>Repository
     @Autowired
-    private CandidateService candidateService;
+    CandidateService candidateService;
 
 
 // 7 Get Commands
@@ -34,7 +34,7 @@ public class CandidateController {
 //   2)  This method is used to get the count of the records of the candidates from the database
     @GetMapping("/count")
     public ResponseEntity<?> getCandidateCount(){
-        int countfinal = candidateService.getCandidateCount();;
+        int countfinal = candidateService.getCandidateCount();
         return ResponseEntity.ok(new MessageResponsesDto("Total candidate i5s"+(countfinal)));
 
     }
@@ -43,9 +43,9 @@ public class CandidateController {
     public ResponseEntity<?> getCandidateById(@PathVariable Long candidateId) {
         Candidates candidates = candidateService.getCandidateById(candidateId);
         return ResponseEntity.ok(new CandidatesDto(
-                candidates.getFirstname(),
-                candidates.getLastname(),
-                candidates.getPhone(),
+                candidates.getFirstName(),
+                candidates.getLastName(),
+                candidates.getPhoneNumber(),
                 candidates.getEmail()
         ));
     }

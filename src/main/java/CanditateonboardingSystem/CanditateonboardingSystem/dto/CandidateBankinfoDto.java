@@ -1,7 +1,7 @@
 package CanditateonboardingSystem.CanditateonboardingSystem.dto;
 
-import CanditateonboardingSystem.CanditateonboardingSystem.entity.Candidates;
-import jakarta.persistence.*;
+
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,15 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CandidateBankinfoDto {
-
-    @Id
-    @GeneratedValue
-    private long id;
+    @NotEmpty
     private String bankName;
+    @NotEmpty
     private String accountNumber;
+    @NotEmpty
     private String ifscCode;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "candidate_id", referencedColumnName = "id")
-    private Candidates candidates;
+
 
 }

@@ -1,15 +1,13 @@
 package CanditateonboardingSystem.CanditateonboardingSystem.entity;
 
 
-import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 
 public class AuthRequest{
+    private String userName;
+    private String password;
+
 }
