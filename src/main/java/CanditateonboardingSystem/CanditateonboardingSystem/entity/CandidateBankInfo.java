@@ -1,14 +1,17 @@
 package CanditateonboardingSystem.CanditateonboardingSystem.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name = "candidate_bank_info")
+@NoArgsConstructor
+@AllArgsConstructor
 public class CandidateBankInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
     private String bank_name;
     private String account_number;

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -11,7 +12,6 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class CandidatePersonalInfo {
     @Id
     @GeneratedValue
@@ -24,6 +24,7 @@ public class CandidatePersonalInfo {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "candidate_id", referencedColumnName = "id")
+    @ToString.Exclude
     private Candidates candidate;
 
 }

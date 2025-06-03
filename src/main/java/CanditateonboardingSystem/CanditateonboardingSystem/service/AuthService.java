@@ -6,20 +6,16 @@ import CanditateonboardingSystem.CanditateonboardingSystem.Repository.UserDetail
 import CanditateonboardingSystem.CanditateonboardingSystem.dto.SignUpRequest;
 import CanditateonboardingSystem.CanditateonboardingSystem.entity.Users;
 import CanditateonboardingSystem.CanditateonboardingSystem.util.OtpUtil;
-import org.apache.catalina.User;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.beans.Encoder;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
-
+@AllArgsConstructor
 public class AuthService {
     @Autowired
     UserDetailsRepository userDetailsRepository;
@@ -34,8 +30,8 @@ public class AuthService {
     PasswordEncoder passwordEncoder;
 
 
-    public boolean existsByUserName(String userName){
-        return userDetailsRepository.findByUserName(userName).isPresent();
+    public boolean existsByUserName(String username){
+        return userDetailsRepository.findByUsername(username).isPresent();
     }
 
 
@@ -45,28 +41,33 @@ public class AuthService {
         users.setUsername(signUpRequest.getUsername());
         users.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         users.setEmail(signUpRequest.getEmail());
-        users.setRole(signUpRequest.getRole());
+        users.setRoleName(signUpRequest.getRole());
         userDetailsRepository.save(users);
     }
 
-    public void sendOtp(String email){
-        Users users = userDetailsRepository.findByEmail(email).orElseThrow(
-                ()-> new UserNotFound(email));
-        String otp = String.valueOf((int)Math.random()*900000+100000);
-        users.setOtp(otp);
-        users.setOtpExpiryTime(LocalDateTime.now().plusMinutes(5));
-        userDetailsRepository.save(users);
-        emailService.SendOtpEmail(email,otp);
+    public void sendOtp(String email) {
+        Users users = userDetailsRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFound(email));
 
+        String otp = String.valueOf((int)(Math.random() * 900000) + 100000);
+
+        users.setOtp(otp);
+        users.setOtpExpiryTime(LocalDateTime.now().plusMinutes(5).toLocalTime());
+        userDetailsRepository.save(users);
+
+        emailService.SendOtpEmail(email, otp);
     }
 
     public String verifyOtp(String email, String otp){
-        Optional<Users> user = userDetailsRepository.findByEmailAndOtp(email,otp);
-        if(user.isPresent() && user.get().getOtpExpiryTime().isAfter(LocalDateTime.now())){
-            return OtpUtil.generateToken(email,10);
+        Optional<Users> user = userDetailsRepository.findByEmailAndOtp(email, otp);
+
+        if(user.isPresent() && user.get().getOtpExpiryTime().isAfter(LocalDateTime.now().toLocalTime())){
+            return OtpUtil.generateToken(email, 10);
         }
-        throw new RuntimeException("Invalid OTP or Otp Expired");
+
+        throw new RuntimeException("Invalid OTP or OTP Expired");
     }
+
 
     public void updatePassword(String token,String newPassword){
         String email;

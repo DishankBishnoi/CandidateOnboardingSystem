@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-
 public class JobOfferNotificationListener {
     @Autowired
     private final EmailService emailService;
@@ -33,12 +32,12 @@ public class JobOfferNotificationListener {
         Candidates candidates = candidateRecordsRepository.findById(candidateId)
                 .orElseThrow(()-> new RuntimeException("Candidate not found"));
 
-        boolean isEmailSent = emailService.sendOfferEmail(candidates);
+        boolean isEmailSent = emailService.sendJobOfferEmail(candidates);
 
         JobOfferNotification notification = JobOfferNotification.builder()
                 .candidates(candidates)
                 .sent(isEmailSent)
-                .sent_at(isEmailSent ? java.time.LocalDateTime.now():null)
+                .sent_at(isEmailSent ? java.time.LocalDateTime.now().toLocalDate():null)
                 .retry_count(0)
                 .build();
 
@@ -46,7 +45,7 @@ public class JobOfferNotificationListener {
         return isEmailSent;
     }
     catch (Exception e){
-        log.error("Error sending email to candidate: " + candidateId, e);
+        log.error("Error sending email to candidate: {}",  candidateId, e);
         return false;
     }
     }

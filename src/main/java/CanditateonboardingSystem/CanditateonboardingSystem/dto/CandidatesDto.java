@@ -15,8 +15,10 @@ public class CandidatesDto {
 
     @NotEmpty
     private String firstname;
+
     @NotEmpty
     private String lastname;
+
     @NotEmpty
     private String phone;
 

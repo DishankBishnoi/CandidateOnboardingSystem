@@ -3,9 +3,7 @@ package CanditateonboardingSystem.CanditateonboardingSystem.entity;
 import CanditateonboardingSystem.CanditateonboardingSystem.enums.OnboardingStatus;
 import CanditateonboardingSystem.CanditateonboardingSystem.enums.Status;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,14 +11,15 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-@Table(name='candidates')
+@Table(name="candidates")
 public class Candidates {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -64,5 +63,7 @@ public class Candidates {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+
 
 }

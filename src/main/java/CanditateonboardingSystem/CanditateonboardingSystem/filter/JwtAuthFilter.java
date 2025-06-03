@@ -12,12 +12,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
 @Component
-
-public class JwtAuthFilter {
+public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
     JwtUtil jwtUtil;
 
@@ -29,7 +29,7 @@ public class JwtAuthFilter {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
-        if(authHeader!=null && authHeader.startsWith("Bearer ")){
+        if(authHeader!=null && authHeader.startsWith("Bearer")){
             token = authHeader.substring(7);
             username = jwtUtil.extractUsername(token);
         }

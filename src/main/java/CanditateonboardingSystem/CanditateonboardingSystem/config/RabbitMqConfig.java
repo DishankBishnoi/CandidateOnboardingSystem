@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
 
-    public static final String JOB_OFFER_QUEUE_NAME = "onboarding";
+    public static final String JOB_OFFER_QUEUE_NAME = "job.offer.queues"; // match the name exactly
 
     @Bean
-    public  Queue jobOfferQueue() {
-        return new Queue(JOB_OFFER_QUEUE_NAME, true);
+    public Queue jobOfferQueue() {
+        return new Queue(JOB_OFFER_QUEUE_NAME, true); // durable = true
     }
 }

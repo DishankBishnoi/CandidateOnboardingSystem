@@ -1,12 +1,13 @@
 package CanditateonboardingSystem.CanditateonboardingSystem.service;
 
 import CanditateonboardingSystem.CanditateonboardingSystem.Repository.UserDetailsRepository;
-import CanditateonboardingSystem.CanditateonboardingSystem.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CustomerUserDetailsService implements UserDetailsService {
 
     @Autowired
@@ -14,9 +15,9 @@ public class CustomerUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = userDetailsRepository.findByUserName(username)
+        return  userDetailsRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-        return new userDetails(user);
+
     }
 
 }

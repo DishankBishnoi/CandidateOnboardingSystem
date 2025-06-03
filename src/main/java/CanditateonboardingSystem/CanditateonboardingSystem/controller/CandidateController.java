@@ -35,12 +35,12 @@ public class CandidateController {
     @GetMapping("/count")
     public ResponseEntity<?> getCandidateCount(){
         int countfinal = candidateService.getCandidateCount();
-        return ResponseEntity.ok(new MessageResponsesDto("Total candidate i5s"+(countfinal)));
+        return ResponseEntity.ok(new MessageResponsesDto("Total candidate is"+(countfinal)));
 
     }
 //  3) This method is used to get the details of the candidate from the database
     @GetMapping("/{candidateId}")
-    public ResponseEntity<?> getCandidateById(@PathVariable Long candidateId) {
+    public ResponseEntity<?> getCandidateById(@PathVariable long candidateId) {
         Candidates candidates = candidateService.getCandidateById(candidateId);
         return ResponseEntity.ok(new CandidatesDto(
                 candidates.getFirstName(),
@@ -51,7 +51,7 @@ public class CandidateController {
     }
 //  4) This method is used to get the personal information of the candidate from the database
     @GetMapping("/{candidateId}/personal-info")
-    public ResponseEntity<?> getPersonalInfo(@PathVariable Long candidateId){
+    public ResponseEntity<?> getPersonalInfo(@PathVariable long candidateId){
         CandidatePersonalInfo candidatePersonalInfo = candidateService.getCandidatePersonalInfo(candidateId);
         return ResponseEntity.ok(new CandidatePersonalInfoDto(
                 candidatePersonalInfo.getDob(),
@@ -63,7 +63,7 @@ public class CandidateController {
     }
 //  5) This method is used to get the education information of the candidate from the database
     @GetMapping("/{candidateId}/education-info")
-    public ResponseEntity<?> getEducation(@PathVariable Long candidateId){
+    public ResponseEntity<?> getEducation(@PathVariable long candidateId){
     CandidateEducation candidateEducation = candidateService.getCandidateEducation(candidateId);
     return ResponseEntity.ok(new CandidateEducationDto(
             candidateEducation.getInstitution(),
@@ -74,15 +74,15 @@ public class CandidateController {
     }
 //  6) This method is used to get the status of the candidate from the database : For ex: Applied, Onboarding, Interview
     @GetMapping("/{candidateId}/status")
-    public ResponseEntity<?> getCandidatesOnboardStatus(@PathVariable long id){
-        OnboardingStatus status = candidateService.getCandidateOnboardingStatus(id);
+    public ResponseEntity<?> getCandidatesStatus(@PathVariable long candidateId){
+        Status status = candidateService.getCandidatesStatus(candidateId);
         return ResponseEntity.ok(new MessageResponsesDto("Status: " + status));
     }
 //  7) This method is used to get the onboarding status of the candidate from the database
-    @GetMapping("/{candidateId}/onboarding-status")
-    public ResponseEntity<?> getCandidatesOnboardStatus(@PathVariable long id, @RequestParam String status) {
-        OnboardingStatus onboardingStatus = candidateService.getCandidateOnboardingStatus(id);
-        return ResponseEntity.ok(new MessageResponsesDto("Status: " + onboardingStatus));
+    @GetMapping("/{candidateId}/onboard-status")
+    public ResponseEntity<?> getCandidatesOnboardStatus(@PathVariable long candidateId) {
+        OnboardingStatus status = candidateService.getCandidatesOnboardStatus(candidateId);
+        return ResponseEntity.ok(new MessageResponsesDto("Status: " + status));
     }
 
 
@@ -90,8 +90,10 @@ public class CandidateController {
 
     //    Post means creating a new record
     @PostMapping
-    public ResponseEntity<?> saveCandidate(@RequestBody @Validated CandidatesDto CandidateDto){
-        candidateService.addNewCandidate(CandidateDto);
+    public ResponseEntity<?> saveCandidate(@RequestBody @Validated CandidatesDto candidatesDto){
+
+
+        candidateService.addNewCandidate(candidatesDto);
         return ResponseEntity.ok(new MessageResponsesDto("Candidate added successfully!"));
     }
 
@@ -102,7 +104,7 @@ public class CandidateController {
     }
 
     @PostMapping("{candidateId}/education-info")
-    public ResponseEntity<?> saveEducation(@RequestBody @Validated CandidateEducationDto candidateEducationDto, @PathVariable long candidateId){
+    public ResponseEntity<?> addCandidateEducation(@RequestBody @Validated CandidateEducationDto candidateEducationDto, @PathVariable long candidateId){
         candidateService.saveEducation(candidateEducationDto,candidateId);
         return ResponseEntity.ok(new MessageResponsesDto("Education info added successfully"));
     }
@@ -113,9 +115,9 @@ public class CandidateController {
         return ResponseEntity.ok(new MessageResponsesDto("Candidate status updated successfully"));
     }
 
-    @PutMapping("{id}/status-onboarding")
-    public ResponseEntity<?> updateCandidateOnboardingStatus(@RequestBody OnboardingStatus onboardingStatus, @PathVariable long id){
-        candidateService.updateCandidateOnboardingStatus(id,onboardingStatus);
+    @PutMapping("{id}/onboard-status")
+    public ResponseEntity<?> updateCandidateOnboardStatus(@RequestBody OnboardingStatus onboardingStatus, @PathVariable long id){
+        candidateService.updateCandidateOnboardStatus(id,onboardingStatus);
         return ResponseEntity.ok(new MessageResponsesDto("Candidate onboarding status updated successfully"));
     }
 

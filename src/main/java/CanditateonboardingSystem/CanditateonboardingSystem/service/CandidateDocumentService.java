@@ -39,8 +39,8 @@ public class CandidateDocumentService {
     }
 
     public void verifyDocument(Long documentId, Long candidateId){
-        CandidateDocument candidateDocument = CandidateRecordsRepository.findById(documentId).
-                orElseThrow(()-> new CandidateDocumentNotFoundExceptions(candidateId,documentId));
+        CandidateDocument candidateDocument = candidateDocumentDetailsRepository.findById(documentId).orElseThrow
+                (()-> new CandidateDocumentNotFoundExceptions(candidateId,documentId));
 
         candidateDocument.setIsVerified(true);
         candidateDocumentDetailsRepository.save(candidateDocument);

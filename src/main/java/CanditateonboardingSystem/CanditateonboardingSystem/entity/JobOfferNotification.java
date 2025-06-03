@@ -16,15 +16,22 @@ public class JobOfferNotification {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private long id;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @JoinColumn(name = "candidate_id", referencedColumnName = "id")
+    private Candidates candidates;
+
     private Boolean sent;
 
+    @Column(name = "sent_at")
     private LocalDate sent_at;
 
+    @Column(name = "retry_count")
     private int retry_count;
 
+    @Column(name = "error_message")
     private String error_message;
-    @OneToOne (cascade = jakarta.persistence.CascadeType.ALL)
-    @jakarta.persistence.JoinColumn(name = "candidates_id", referencedColumnName = "id")
-    private Candidates candidates;
+
+
 
 }

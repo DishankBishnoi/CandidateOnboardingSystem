@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CandidatePersonalInfoDto {
-
+    @NotEmpty
     private Date dob;
     @NotEmpty
     private String gender;

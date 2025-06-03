@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CandidateService {
 
-//  We are initializing  to inject the repositories into the service class
+//  We are initializing to inject the repositories into the service class
     CandidateRecordsRepository candidateRecordsRepository;
     CandidateBankInformationRepository candidateBankInformationRepository;
     CandidateEducationDetailRepository candidateEducationDetailRepository;
@@ -39,24 +39,25 @@ public class CandidateService {
     }
 
 //  Method to get the candidate details from the database
-    public void addNewCandidate(CandidatesDto CandidateDto){
+    public void addNewCandidate(CandidatesDto candidatesDto){
         Candidates candidate= new Candidates();
-        candidate.setFirstname(CandidateDto.getFirstname());
-        candidate.setLastname(CandidateDto.getLastname());
-        candidate.setPhone(CandidateDto.getPhone());
-        candidate.setEmail(CandidateDto.getEmail());
+        candidate.setFirstName(candidatesDto.getFirstname());
+        candidate.setLastName(candidatesDto.getLastname());
+        candidate.setPhoneNumber(candidatesDto.getPhone());
+        candidate.setEmail(candidatesDto.getEmail());
         candidateRecordsRepository.save(candidate);
     }
 
 
-//    Method to get the candidate personal information from the database
+//    Method to get the candidates personal information from the database
 
-    public void addPersonalInfo(CandidatePersonalInfoDto CandidatePersonalInfoDto , Long candidateId){
+    public void addPersonalInfo(CandidatePersonalInfoDto candidatePersonalInfoDto , Long candidateId){
         CandidatePersonalInfo candidatePersonalInfo= new CandidatePersonalInfo();
-        candidatePersonalInfo.setDob(CandidatePersonalInfoDto.getDob());
-        candidatePersonalInfo.setGender(CandidatePersonalInfoDto.getGender());
-        candidatePersonalInfo.setNationality(CandidatePersonalInfoDto.getNationality());
-        candidatePersonalInfo.setAddress(CandidatePersonalInfoDto.getAddress());
+        candidatePersonalInfo.setDob(candidatePersonalInfoDto.getDob());
+        candidatePersonalInfo.setGender(candidatePersonalInfoDto.getGender());
+        candidatePersonalInfo.setNationality(candidatePersonalInfoDto.getNationality());
+        candidatePersonalInfo.setAddress(candidatePersonalInfoDto.getAddress());
+        candidatePersonalInfo.setCandidate(candidateRecordsRepository.findById(candidateId).orElseThrow(()-> new CandidateNotFound(candidateId)));
         candidatePersonalInfoRespository.save(candidatePersonalInfo);
     }
 
@@ -81,12 +82,13 @@ public class CandidateService {
     }
 
 //    Method to get the candidate details from the database
-    public Candidates getCandidateById(Long candidateId){
-        Candidates candidate = candidateRecordsRepository.findById(candidateId).orElseThrow(()-> new CandidateNotFound(candidateId));
-        return candidate;
+    public Candidates getCandidateById(Long candidateId) {
+        return candidateRecordsRepository.findById(candidateId)
+                .orElseThrow(() -> new CandidateNotFound(candidateId));
     }
 
-//
+
+    //
     public CandidatePersonalInfo getCandidatePersonalInfo(Long candidateId){
         try {
              return candidatePersonalInfoRespository.findByCandidateId(candidateId);
@@ -104,23 +106,30 @@ public class CandidateService {
         }
     }
 
-    public Status getCandidateStatus(Long candidateId){
+    public Status getCandidatesStatus(Long candidateId){
         Candidates candidate = candidateRecordsRepository.findById(candidateId).orElseThrow(()-> new CandidateNotFound(candidateId));
         return candidate.getStatus();
     }
-    public OnboardingStatus getCandidateOnboardingStatus(Long candidateId){
-        Candidates candidate = candidateRecordsRepository.findById(candidateId).orElseThrow(()-> new CandidateNotFound(candidateId));
+
+    public OnboardingStatus getCandidatesOnboardStatus(Long id) {
+        Candidates candidate = candidateRecordsRepository.findById(id).orElseThrow(() -> new CandidateNotFound(id));
         return candidate.getOnboardingStatus();
     }
+
+
 
     public void updateCandidateStatus(Long candidateId, Status status){
         Candidates candidate = candidateRecordsRepository.findById(candidateId).orElseThrow(()-> new CandidateNotFound(candidateId));
         candidate.setStatus(status);
         candidateRecordsRepository.save(candidate);
     }
-    public void updateCandidateOnboardingStatus(Long candidateId, OnboardingStatus onboardingStatus){
+
+    public void updateCandidateOnboardStatus(Long candidateId, OnboardingStatus onboardingStatus){
         Candidates candidate = candidateRecordsRepository.findById(candidateId).orElseThrow(()-> new CandidateNotFound(candidateId));
         candidate.setOnboardingStatus(onboardingStatus);
+        candidateRecordsRepository.save(candidate);
 
     }
+
+
 }

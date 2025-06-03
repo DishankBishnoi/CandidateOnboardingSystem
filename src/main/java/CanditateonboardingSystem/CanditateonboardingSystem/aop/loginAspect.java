@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class loginAspect {
-//    Error in this file for the directory
-    @Around("execution(* com.example.demo.service.*.*(..))")
+
+    @Around("execution(* CanditateonboardingSystem.CanditateonboardingSystem.service.*.*(..))")
     public Object logServiceMethods(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
 

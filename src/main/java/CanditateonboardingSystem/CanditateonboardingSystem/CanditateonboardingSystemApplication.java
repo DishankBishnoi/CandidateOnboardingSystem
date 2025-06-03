@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CanditateonboardingSystemApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(CanditateonboardingSystemApplication.class, args);
 	}
 
 }
+

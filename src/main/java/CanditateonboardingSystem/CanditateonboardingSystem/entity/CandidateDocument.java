@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -12,7 +13,6 @@ import lombok.NoArgsConstructor;
 public class CandidateDocument {
     @Id @GeneratedValue
     private long id;
-
     private String documentType;
 
     @Lob
@@ -25,5 +25,6 @@ public class CandidateDocument {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "candidate_id", referencedColumnName = "id")
+    @ToString.Exclude
     private Candidates candidate;
 }

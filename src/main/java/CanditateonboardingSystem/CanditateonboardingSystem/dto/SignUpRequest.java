@@ -9,6 +9,7 @@ import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class SignUpRequest {
     @NotBlank
     @Size(min = 3 , max = 20)
